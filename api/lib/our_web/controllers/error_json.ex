@@ -7,14 +7,11 @@ defmodule OurWeb.ErrorJSON do
 
   alias Plug.Conn.Status
 
-  def error(%{status: status, message: message}) do
+  def error(%{status: status} = params) do
     %{
       error: Status.reason_phrase(Status.code(status)),
-      message: message
+      message: Map.get(params, :message),
+      details: Map.get(params, :details)
     }
-  end
-
-  def error(%{status: status}) do
-    %{error: Status.reason_phrase(Status.code(status))}
   end
 end

@@ -11,6 +11,12 @@ defmodule OurWeb.Router do
     get "/user/:name", UserController, :show
     post "/user", UserController, :create
 
+    get "/user/:user/key", SSHKeyController, :index
+    post "/user/:user/key", SSHKeyController, :create
+    delete "/user/:user/key/:id", SSHKeyController, :delete
+
+    get "/key/:fingerprint", SSHKeyController, :show
+
     get "/package/:name", PackageController, :show
     post "/package", PackageController, :create
     get "/package", PackageController, :index
