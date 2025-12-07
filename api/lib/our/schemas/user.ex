@@ -21,6 +21,10 @@ defmodule Our.Schemas.User do
   def changeset(user, params) do
     user
     |> cast(params, [:name, :email, :password, :profile])
+    |> validate_length(:name, min: 1, max: 64)
+    |> validate_format(:name, ~r/^[a-zA-Z][a-zA-Z0-9_-]*$/)
+    |> validate_length(:email, min: 1, max: 254)
+    |> validate_format(:email, ~r/@/)
     |> unique_constraint(:name)
   end
 end

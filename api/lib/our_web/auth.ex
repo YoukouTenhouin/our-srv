@@ -47,11 +47,15 @@ defmodule OurWeb.Auth do
   end
 
   defp do_unpack_token(token) do
-    <<type::8, rest::binary>> = token
-    case type do
-      1 ->
-	<<sign::binary-size(@hash_byte_size), payload::binary>> = rest
-	{:ok, sign, payload}
+    with <<type::8, rest::binary>> <- token do
+      case type do
+	1 ->
+	  <<sign::binary-size(@hash_byte_size), payload::binary>> = rest
+	  {:ok, sign, payload}
+	_ ->
+	  {:error, :invalid}
+      end
+    else
       _ ->
 	{:error, :invalid}
     end

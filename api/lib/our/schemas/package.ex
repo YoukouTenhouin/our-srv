@@ -18,6 +18,7 @@ defmodule Our.Schemas.Package do
   def changeset(package, params) do
     package
     |> cast(params, [:name, :version, :description, :maintainer_id])
+    |> validate_format(:name, ~r/^[a-zA-Z0-9.+_-]+$/)
     |> unique_constraint(:name)
   end
 end

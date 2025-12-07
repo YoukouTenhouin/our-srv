@@ -27,21 +27,11 @@ defmodule Our.Schemas.SSHKey do
     end
   end
 
-  @max_key_byte_size 2048
-  defp validate_key_size(changeset) do
-    validate_change(changeset, :content, fn :content, bin ->
-      if byte_size(bin) > @max_key_byte_size do
-	  [{:content, "too long"}]
-	else
-	  []
-	end
-    end)
-  end
-
   def changeset(key, params) do
     key
     |> cast(params, [:name, :type, :content, :owner_id])
-    |> validate_key_size()
+    |> validate_length(:content, count: :bytes, max: 2048)
+    |> validate_length(:name, max: 64)
     |> put_fingerprint()
     |> unique_constraint(:fingerprint)
   end
