@@ -7,7 +7,7 @@ defmodule OurWeb.PackageJSON do
       version: pkg.version,
       description: pkg.description,
     }
-    if Ecto.assoc_loaded?(pkg.maintainer) do
+    if Ecto.assoc_loaded?(pkg.maintainer) and !is_nil(pkg.maintainer) do
       ret |> Map.put(:maintainer, pkg.maintainer.name)
     else
       ret
@@ -20,5 +20,9 @@ defmodule OurWeb.PackageJSON do
 
   def index(%{packages: pkgs}) do
     %{data: for(p <- pkgs, do: data(p))}
+  end
+
+  def delete(_) do
+    %{success: true}
   end
 end

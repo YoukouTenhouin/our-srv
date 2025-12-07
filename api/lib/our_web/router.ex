@@ -18,6 +18,9 @@ defmodule OurWeb.Router do
     get "/key/:fingerprint", SSHKeyController, :show
 
     get "/package/:name", PackageController, :show
+    put "/package/:name", PackageController, :update
+    delete "/package/:name", PackageController, :delete
+
     post "/package", PackageController, :create
     get "/package", PackageController, :index
 
